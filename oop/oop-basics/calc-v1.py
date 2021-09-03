@@ -14,8 +14,9 @@ class Calculadora:
 #instanciar o objeto
 calculadora = Calculadora()
 
-print("\nA soma de {numA} + {numB} é: ", calculadora.soma(5, 5))
+#nesse caso, nao conseguimos informar no print quem são os valores pq instacia na hora
+print(f"\nA soma de é:", calculadora.soma(2, 5))
 
-print("\nA soma de {numA} * {numB} é: ", calculadora.mul(5, 5))
+print(f"\nA multiplicação de é:", calculadora.mul(3, 6))
 
-print("\nA soma de {numA} / {numB} é: ", calculadora.div(5, 5))
+print(f"\nA divisão de é:", calculadora.div(25, 55))
