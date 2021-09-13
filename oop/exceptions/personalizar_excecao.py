@@ -1,7 +1,7 @@
-class Erro(Exception):
+class Erro(Exception): #classe padrão para herdar a "base"
     pass
 
-class InputError(Erro):
+class InputError(Erro): #classe personalizada que herdará a classe Erro criada
     def __init__(self, message):
         self.message = message
 
