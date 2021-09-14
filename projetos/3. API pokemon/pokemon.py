@@ -13,5 +13,6 @@ def ataques_pokemon(nome_pokemon):
         print(f"Ataques do {nome_pokemon}: {dados2['moves'][i]['move']['name']}")
         
 if __name__ == "__main__":
-    foto_pokemon("ditto")
-    ataques_pokemon("squirtle")
+    r = str(input("Digite o nome do pokemon em letra minuscula: "))
+    foto_pokemon(r)
+    ataques_pokemon(r)
