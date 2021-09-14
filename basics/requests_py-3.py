@@ -7,3 +7,4 @@ def foto_pokemon(nome_pokemon):
 
 if __name__ == "__main__":
     foto_pokemon("pikachu")
+
