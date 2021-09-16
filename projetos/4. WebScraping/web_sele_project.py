@@ -12,11 +12,16 @@ resp = requests.get(url)
 
 soup = bs(resp.content, 'html.parser')
 
-# abrindo o navegador e clicando no botao "entrega em domicílio"
+# abrindo o navegador e clicando no botao "ordenar: recomendada para ordenar: mais avaliado"
 driver.get("https://www.yelp.com.br/search?cflt=restaurants&find_loc=Fortaleza%20-%20CE&start=0")
 sleep(2)
-botao_filtro = driver.find_element_by_xpath('/html/body/yelp-react-root/div[1]/div[4]/div/div[1]/div[1]/div[2]/div/ul/li[3]/div/div[2]/div[1]/div/button/span/div/div[1]')
+botao_filtro = driver.find_element_by_xpath('/html/body/yelp-react-root/div[1]/div[4]/div/div[1]/div[1]/div[2]/div/ul/li[1]/div/div[2]/div[2]/div/div/span/span[2]/a')
 botao_filtro.click()
+
+sleep(2)
+
+botao_filtro2 = driver.find_element_by_xpath('/html/body/yelp-react-root/div[1]/div[4]/div/div[1]/div[1]/div[2]/div/ul/li[1]/div/div[2]/div[2]/div/div/div/menu/button[3]/div')
+botao_filtro2.click()
 
 # procurando quantas páginas (abas) existem para fazer a varredura em tudo
 url2 = driver.current_url
@@ -30,7 +35,7 @@ dic = {"Restaurantes": [], "Notas": []}
 
 # loop que irá acessar a página e todas as outras existentes, colhendo os dados delas
 try:
-    for i in range(int(limite_pagina)):
+    for i in range(int(limite_pagina) - 5):
             new_url = driver.current_url
             resp = requests.get(new_url)
             soup = bs(resp.content, 'html.parser')
@@ -39,7 +44,7 @@ try:
             report = soup.find_all(attrs={"class" : "css-1pxmz4g"})   
             for i in report:
                 word = i.text.replace(u'\xa0', ' ')
-                dic["Restaurantes"].append(word[4:])
+                dic["Restaurantes"].append(word[3:])
 
             report2 = soup.find_all(attrs={"class" : "i-stars__09f24___sZu0"})
 
@@ -64,3 +69,7 @@ finally:
 
 
 
+"""o único adendo é que no laço do for (int(limite_pagina) - 5) foi setado assim pois os restaurantes que não são avaliados eles não contém o elemento que identifica a sua nota e acaba
+atrapalhando na ingestão dos valores, correlacionando os restaurantes com sua respectiva nota. Por isso, preferi fazer com os "mais avaliados" e assim percorrer páginas que muito provavelmente
+foram avaliados pelo menos 1 vez.
+"""
