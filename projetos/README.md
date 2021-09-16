@@ -1,9 +1,17 @@
 ### Projetos de Python
 
-## Projeto 1
+## Projeto 1 - Transformação em massa de JPG para PNG
 
 1. Script simples para transformar vários arquivos .jpg em .png de forma rápida e simples, bastando informar no input qual caminho da pasta que deseja realizar as transformações;
 
-## Projeto 2
+## Projeto 2 - Contador regressivo - Temporizador
 
 2. Script simples que recebe um valor em segundos e faz a contagem desse valor recebido até 0, idêntico a um timer normal;
+
+## Projeto 3 - Aplicativo informativo de Pokemon
+
+3. A partir dos dados que são consumidos de uma API, pede-se o nome de um certo pokemon e o script retorna informações como foto do pokemon (frente e verso) e quais são os possíveis ataques desse pokemon
+
+## Projeto 4 - Webscraping + Selenium
+
+4. Script que coleta os dados do site "yelp" a qual primeiramente há uma interação para escolher um filtro, no caso, ordenação para "mais avaliados". Após isso, o código vai percorrer todas as informações contidas na página e irá armazenar os dados relacionados ao nome do restaurante e sua nota de avaliação, onde serão armazenados em um dicionário. Percorrida essa página, o script faz com que passe para próxima página (no código ele identifica quantas páginas são para poder fazer um range de até onde vai) e assim, percorre todas as lojas que tem avaliação no site.
