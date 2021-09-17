@@ -2,7 +2,7 @@ import os
 import shutil
 from PIL import Image 
 
-
+# função para a realização da transformação das imagens para png
 def png_to_jpg():
     for filename in os.listdir(input_path):
         current_img = Image.open(input_path + '\\' + filename)
@@ -12,6 +12,7 @@ def png_to_jpg():
     print("\n Transformação finalizada!")
     print("\n --------------------")
 
+# função para a transferir as imagens transformadas para outra pasta
 def mover_imagens():
     os.chdir(input_path)
     imagens_destino = input_path + "\\imagens_transformadas"
