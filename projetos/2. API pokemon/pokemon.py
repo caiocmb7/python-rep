@@ -14,5 +14,10 @@ def ataques_pokemon(nome_pokemon):
         
 if __name__ == "__main__":
     r = str(input("Digite o nome do pokemon em letra minuscula: "))
-    foto_pokemon(r)
-    ataques_pokemon(r)
+    try:
+        foto_pokemon(r)
+        ataques_pokemon(r)
+    except:
+        print("\nOcorreu um erro. \n\nTente novamente com o nome correto do pokemon.")
+    
+    
