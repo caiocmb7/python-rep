@@ -30,10 +30,23 @@ class Carro:
         lista = ['Rosa', 'Amarelo', 'Azul', 'Preto', 'Branco', 'Cinza', 'Verde', 'Roxo', 'Marrom']
         chute = random.choice(lista)
         return f"\nA cor do carro será: {chute}"
-        
-carro_teste = Carro('Toyota', '1200 cavalos', '10 km/L')
+
+class carro_automobilismo(Carro):
+    def __init__(self, marca, potencia, km_por_litro, tamanho):
+        self.tamanho = tamanho
+        super().__init__(marca, potencia / 10, km_por_litro)  
+
+
+
+
+carro_teste = Carro('Toyota', 1200, '10 km/L')
+
+carro_teste_automobilismo = carro_automobilismo('KIA', 120, '5 km/L', 'pequeno')
 print(carro_teste.exibirInfo())
 print(carro_teste.definirPlaca())
 print(carro_teste.definirCor())
+print(carro_teste_automobilismo.definirCor())
+print(carro_teste_automobilismo.exibirInfo())
+print(carro_teste_automobilismo.tamanho)
 
 
