@@ -24,6 +24,12 @@
 
 ### Principais Bibliotecas: time
 
+## Projeto 5 - Sorteador
+
+4. Script que recebe elementos que é pedido pelo console, fazendo o shuffle dos itens, sorteando-os
+
+### Principais Bibliotecas: random
+
 
 
 
