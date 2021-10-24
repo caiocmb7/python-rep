@@ -22,11 +22,27 @@
 
 4. Script simples que recebe um valor em segundos e faz a contagem desse valor recebido até 0, idêntico a um timer normal;
 
+exemplo: 
+
+input-> 30
+
+output-> contagem de 30, 29, 28 ..., 2, 1, 0;
+
 ### Principais Bibliotecas: time
 
 ## Projeto 5 - Sorteador
 
 4. Script que recebe elementos que é pedido pelo console, fazendo o shuffle dos itens, sorteando-os
+
+exemplo: 
+
+input-> maria tereza barbara
+
+output-> 
+
+1: barbara
+2: tereza
+3: maria
 
 ### Principais Bibliotecas: random
 
