@@ -22,11 +22,11 @@
 
 4. Script simples que recebe um valor em segundos e faz a contagem desse valor recebido até 0, idêntico a um timer normal;
 
-exemplo: 
+    Exemplo: 
 
-input-> 30
+        input-> 30
 
-output-> 00:30, 00:29, 00:28 ..., 00:02, 00:01, "Contagem Realizada"
+        output-> 00:30, 00:29, 00:28 ..., 00:02, 00:01, "Contagem Realizada"
 
 ### Principais Bibliotecas: time
 
@@ -34,15 +34,15 @@ output-> 00:30, 00:29, 00:28 ..., 00:02, 00:01, "Contagem Realizada"
 
 4. Script que recebe elementos que é pedido pelo console, fazendo o shuffle dos itens, sorteando-os
 
-exemplo: 
+    Exemplo: 
 
-input-> maria tereza barbara
+        input-> maria tereza barbara
 
-output-> 
+        output-> 
 
-1: barbara
-2: tereza
-3: maria
+        1: barbara
+        2: tereza
+        3: maria
 
 ### Principais Bibliotecas: random
 
