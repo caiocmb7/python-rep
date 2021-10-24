@@ -9,6 +9,6 @@ def sorteador(lista):
     return lista
 
 if __name__ == "__main__":
-    palavras = input("Digite os elementos que deseja sortear, separando-os por uma vírgula: ")
+    palavras = input("Digite os elementos que deseja sortear, separando-os por um espaço: ")
     lista = palavras.split(" ")
     sorteador(lista)
