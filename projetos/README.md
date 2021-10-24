@@ -26,7 +26,7 @@ exemplo:
 
 input-> 30
 
-output-> contagem de 30, 29, 28 ..., 2, 1, 0;
+output-> 00:30, 00:29, 00:28 ..., 00:02, 00:01, "Contagem Realizada"
 
 ### Principais Bibliotecas: time
 
