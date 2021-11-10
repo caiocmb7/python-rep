@@ -17,4 +17,4 @@ try:
     print(f"\nResposta que o client recebeu do server: {resp}\n")
     s.close()
 except:
-    print("Tempo excedido!\n")
+    print("Tempo excedido!\n Pode ter ocorrido algum erro durante a mensagem ao servidor!\n")
