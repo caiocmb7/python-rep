@@ -18,7 +18,7 @@ def send(sock):
             deleteLastLine()
             sock.send(message.encode("utf8"))
         except:
-            print("An error occured while trying to send a message!")
+            print("Erro durante a mensagem! Possivelmente servidor cheio!")
             break
 
 def receive(sock):
@@ -69,7 +69,7 @@ def main():
 
     # Finally closes the socket object connection
     clientSocket.close()
-    print("\nYou can now close the application.")
+    print("\nServidor Cheio!")
 
 # Flag used for threads termination
 threadFlag = True
