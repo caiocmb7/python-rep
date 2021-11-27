@@ -32,7 +32,7 @@ def receive(sock):
                 # When the server closes the socket, messages received are empty
                 break
         except:
-            print("An error occured while trying to reach the server!")
+            print("Erro durante o acesso ao servidor!")
             break
 
 def main():
@@ -69,7 +69,7 @@ def main():
 
     # Finally closes the socket object connection
     clientSocket.close()
-    print("\nServidor Cheio!")
+    print("\nServidor Cheio ou você saiu do chat!")
 
 # Flag used for threads termination
 threadFlag = True

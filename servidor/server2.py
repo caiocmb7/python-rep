@@ -20,7 +20,7 @@ def clientThread(client):
     try:
         message = client.recv(2048).decode("utf8")
         if message == "/ENTRAR":
-            user = getNickname(client)
+            user = Nickname(client)
     except:
         print("Ocorreu um erro durante o processo, cheque o nickname ou servidor cheio está cheio! {}!".format(address))
         del addresses[client]
@@ -73,7 +73,7 @@ def clientThread(client):
             broadcast("{} saiu do chat.".format(user))
             break
 
-def getNickname(client):
+def Nickname(client):
     # Gets a nickname for a client (if it is not already taken)
     if len(list(users.values())) >= 4:
         print("\nServidor Cheio!")
