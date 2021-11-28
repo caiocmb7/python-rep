@@ -52,7 +52,27 @@ def main():
     clientSocket = socket.socket(socketFamily, socketType)
 
     # Connects to the server
-    clientSocket.connect((host, port))
+    while True:
+        print("Bem vindo a nossa aplicação, esses são seus comandos:")
+        print("/ENTRAR para conectar ao server")
+        print("/SAIR para sair do server")
+        print("/NICKS para mudar seu nick")
+        print("/USUARIOS para saber quem esta conectado ao server")
+
+        comando = input("\n Digite seu comando: ")
+
+        if comando == "/ENTRAR":
+            host = str(input("Digite o ip do servidor "))
+            port = int(input("Digite a porta do servidor:"))
+            try:
+                clientSocket.connect((host, port))
+                break
+            except:
+                print("O ip ou porta não existe!")
+            else:
+                break
+        else:
+            print("Você precisa primeiro entrar no server para usar os outros comandos")
 
     # Creates two threads for sending and receiving messages from the server
     sendingThread = threading.Thread(target=send, args=(clientSocket,))
