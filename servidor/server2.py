@@ -3,7 +3,6 @@ import socket
 import threading
 
 def connectionThread(sock):
-    # Accepts a connection request and stores both a socket object and its IP address
     while True:
         try:
             client, address = sock.accept()
@@ -15,7 +14,6 @@ def connectionThread(sock):
         threading.Thread(target=clientThread, args=(client,)).start()
 
 def clientThread(client):
-    # Handles the client
     address = addresses[client][0]
     try:
        user = Nickname(client)
@@ -37,7 +35,6 @@ def clientThread(client):
         return
     broadcast("{} entrou no chat!".format(user))
 
-    # Handles specific messages in a different way (user commands)
     while True:
         try:
             message = client.recv(2048).decode("utf8")
@@ -72,7 +69,6 @@ def clientThread(client):
             break
 
 def Nickname(client):
-    # Gets a nickname for a client (if it is not already taken)
     if len(list(users.values())) >= 4:
         print("\nServidor Cheio!")
         client.close()
@@ -90,7 +86,6 @@ def Nickname(client):
     return nickname
 
 def broadcast(message, sentBy = ""):
-    # Broadcasts a message to all users connected
     try:
         if sentBy == "":
             for user in users:
@@ -101,42 +96,38 @@ def broadcast(message, sentBy = ""):
     except:
         print("Erro na mensagem!")
 
-def cleanup():
-    # Closes all socket object connections
+def limpeza():
     if len(addresses) != 0:
         for sock in addresses.keys():
             sock.close()
     print("Limpeza feita.")
 
 def main():
-    # Register cleanup() as the function to be executed at termination
-    atexit.register(cleanup)
-    # The host and port for the chat service
+    # Limpeza
+    atexit.register(limpeza)
+
+    # IP/Port
     host = "127.0.0.1"
     port = 6789
-    # Creates the socket for a TCP application
-    socketFamily = socket.AF_INET
-    socketType = socket.SOCK_STREAM
-    serverSocket = socket.socket(socketFamily, socketType)
-    # Binds the serverSocket at the specified port number
+
+    # config
+    serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serverSocket.bind((host, port))
-    # Enables accepting connections
     serverSocket.listen()
-    # Welcome message to the server owner
     print("Aguardando comandos ...")
 
-    # Creates a thread for accepting incoming connections
+    # Thread
     connThread = threading.Thread(target=connectionThread, args=(serverSocket,))
     connThread.start()
-    # Waits for it to end
     connThread.join()
-    # Performs socket connections cleanup
-    cleanup()
-    # Closes the server socket object connection
+
+    # Limpeza
+    limpeza()
+
+    # Fechar
     serverSocket.close()
     print("Server desligado.")
 
-# Dictionaries of nicknames and addresses with socket object as key
 users = {}
 addresses = {}
 
