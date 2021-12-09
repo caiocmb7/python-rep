@@ -66,7 +66,7 @@ def clientThread(client):
                 print("{} trocou o nick para {}.".format(antigo, users[client]))
                 broadcast("{} trocou o nick para {}.".format(antigo, users[client]))
             else:
-                print("{} ({}): {}".format(address, user, message))
+                print("({}): {}".format(user, message))
                 broadcast(message, user)
         except:
             print("{} ({}) saiu.".format(address, user))
