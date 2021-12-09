@@ -53,9 +53,17 @@ def clientThread(client):
                 client.send("Deseja trocar seu nick para qual?".encode("utf8"))
                 new_nickname = client.recv(2048).decode("utf8")
                 antigo = users[client]
-                users[client] = new_nickname
-                user = new_nickname
-                print("Nick trocado!")
+                nick_usado = False
+                if new_nickname in users.values():
+                    nick_usado = True
+                    while nick_usado:
+                        client.send("Esse nick já está sendo usado, tente novamente com outro:".encode("utf8"))
+                        new_nickname = client.recv(2048).decode("utf8")
+                        if new_nickname not in users.values():
+                                nick_usado = False
+                                users[client] = new_nickname
+                                user = new_nickname
+                print("{} trocou o nick para {}.".format(antigo, users[client]))
                 broadcast("{} trocou o nick para {}.".format(antigo, users[client]))
             else:
                 print("{} ({}): {}".format(address, user, message))
