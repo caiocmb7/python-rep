@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import portao_pb2 as portao__pb2
+import exaustor_pb2 as exaustor__pb2
 
 
-class PortaoStub(object):
+class ExaustorStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -14,58 +14,58 @@ class PortaoStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.abrirPortao = channel.unary_unary(
-                '/Portao/abrirPortao',
-                request_serializer=portao__pb2.StatusPortao.SerializeToString,
-                response_deserializer=portao__pb2.StatusPortao.FromString,
+        self.ligarExaustor = channel.unary_unary(
+                '/Exaustor/ligarExaustor',
+                request_serializer=exaustor__pb2.StatusExaustor.SerializeToString,
+                response_deserializer=exaustor__pb2.StatusExaustor.FromString,
                 )
-        self.fecharPortao = channel.unary_unary(
-                '/Portao/fecharPortao',
-                request_serializer=portao__pb2.StatusPortao.SerializeToString,
-                response_deserializer=portao__pb2.StatusPortao.FromString,
+        self.desligarExaustor = channel.unary_unary(
+                '/Exaustor/desligarExaustor',
+                request_serializer=exaustor__pb2.StatusExaustor.SerializeToString,
+                response_deserializer=exaustor__pb2.StatusExaustor.FromString,
                 )
 
 
-class PortaoServicer(object):
+class ExaustorServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def abrirPortao(self, request, context):
+    def ligarExaustor(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def fecharPortao(self, request, context):
+    def desligarExaustor(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_PortaoServicer_to_server(servicer, server):
+def add_ExaustorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'abrirPortao': grpc.unary_unary_rpc_method_handler(
-                    servicer.abrirPortao,
-                    request_deserializer=portao__pb2.StatusPortao.FromString,
-                    response_serializer=portao__pb2.StatusPortao.SerializeToString,
+            'ligarExaustor': grpc.unary_unary_rpc_method_handler(
+                    servicer.ligarExaustor,
+                    request_deserializer=exaustor__pb2.StatusExaustor.FromString,
+                    response_serializer=exaustor__pb2.StatusExaustor.SerializeToString,
             ),
-            'fecharPortao': grpc.unary_unary_rpc_method_handler(
-                    servicer.fecharPortao,
-                    request_deserializer=portao__pb2.StatusPortao.FromString,
-                    response_serializer=portao__pb2.StatusPortao.SerializeToString,
+            'desligarExaustor': grpc.unary_unary_rpc_method_handler(
+                    servicer.desligarExaustor,
+                    request_deserializer=exaustor__pb2.StatusExaustor.FromString,
+                    response_serializer=exaustor__pb2.StatusExaustor.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'Portao', rpc_method_handlers)
+            'Exaustor', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class Portao(object):
+class Exaustor(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def abrirPortao(request,
+    def ligarExaustor(request,
             target,
             options=(),
             channel_credentials=None,
@@ -75,14 +75,14 @@ class Portao(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Portao/abrirPortao',
-            portao__pb2.StatusPortao.SerializeToString,
-            portao__pb2.StatusPortao.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Exaustor/ligarExaustor',
+            exaustor__pb2.StatusExaustor.SerializeToString,
+            exaustor__pb2.StatusExaustor.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def fecharPortao(request,
+    def desligarExaustor(request,
             target,
             options=(),
             channel_credentials=None,
@@ -92,8 +92,8 @@ class Portao(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Portao/fecharPortao',
-            portao__pb2.StatusPortao.SerializeToString,
-            portao__pb2.StatusPortao.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Exaustor/desligarExaustor',
+            exaustor__pb2.StatusExaustor.SerializeToString,
+            exaustor__pb2.StatusExaustor.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -9,15 +9,14 @@ import sys
 import os
 import time
 # import the generated classes
-sys.path.insert(0, r'C:\Users\Caio\Desktop\codigos\git\python-rep\servidor\Trabalho 3 - Projeto HomeAssistant\Trab\gRPC')
-from lampada_pb2 import *
-from lampada_pb2_grpc import *
+import lampada_pb2
+import lampada_pb2_grpc
 # import the generated classes
-from ar_pb2 import *
-from ar_pb2_grpc import *
+import ar_pb2
+import ar_pb2_grpc
 # import the generated classes
-from portao_pb2 import *
-from portao_pb2_grpc import *
+import exaustor_pb2
+import exaustor_pb2_grpc
 import json
 # Conexao socket
 IP = "127.0.0.1"
@@ -30,8 +29,8 @@ clientes = []
 
 # Inicializando os sensores
 # Lampada
-sensor_ilumicao = []
-sensor_ilumicao.append(0)
+sensor_iluminacao = []
+sensor_iluminacao.append(0)
 lampada_valor = []
 lampada_valor.append(0)
 # Ar
@@ -41,27 +40,27 @@ ar_valor = []
 ar_valor.append(0)
 
 # Portão
-portao_sensor = []
-portao_sensor.append(0)
-portao_valor = []
-portao_valor.append(0)
+fumaca_sensor = []
+fumaca_sensor.append(0)
+fumaca_valor = []
+fumaca_valor.append(0)
 
 
 def aceptarCon():
     print("aceptarCon iniciado")
-    global sensor_ilumicao
+    global sensor_iluminacao
     global lampada_valor
     global clientes
     global sock
     while True:
         try:
-            stauts_portao = ""
+            stauts_exaustor = ""
             conn, addr = sock.accept()
             conn.setblocking(False)
             clientes.append(conn)
             # print(conn.getpeername()[1])
             valorluminosidade = int(lampada_valor[len(
-                lampada_valor)-1]) - int(sensor_ilumicao[len(sensor_ilumicao)-1])
+                lampada_valor)-1]) - int(sensor_iluminacao[len(sensor_iluminacao)-1])
             #valortemperatura = 0
             # print(ar_sensor)
             if int(ar_valor[len(ar_valor)-1]) >= 0 and len(ar_valor) > 1:
@@ -73,16 +72,16 @@ def aceptarCon():
 
             # print(len(portao_valor))
 
-            if len(portao_valor) > 1:
-                if portao_valor[len(portao_valor)-1] >= 1:
-                    stauts_portao = "Aberto"
+            if len(fumaca_valor) > 1:
+                if fumaca_valor[len(fumaca_valor)-1] >= 1:
+                    stauts_exaustor = "Aberto"
                 else:
-                    stauts_portao = "Fechado"
+                    stauts_exaustor = "Fechado"
             else:
-                if portao_sensor[len(portao_sensor)-1] >= 1:
-                    stauts_portao = "Aberto"
+                if fumaca_sensor[len(fumaca_sensor)-1] >= 1:
+                    stauts_exaustor = "Aberto"
                 else:
-                    stauts_portao = "Fechado"
+                    stauts_exaustor = "Fechado"
             # print(stauts_portao)
             conn.send(('HTTP/1.0 200 OK\n').encode('utf-8'))
             conn.send(('Content-Type: text/html\n').encode('utf-8'))
@@ -95,11 +94,11 @@ def aceptarCon():
 			            <h1>Trabalho 3 - SISTEMAS DISTRIBUÍDOS</h1>
 			            <h3>Nivel de luminosidade (Candela): {}</h3>
 			            <h3>Temperatura (C°): {}</h3>
-			            <h3>Portão: {}</h3>
+			            <h3>Exaustor: {}</h3>
 			            <br><a href="http://localhost:8080/">Modificar Estado</a>
 			        </body>
 			    </html>
-			""").format(valorluminosidade, valortemperatura, stauts_portao).encode('utf-8'))
+			""").format(valorluminosidade, valortemperatura, stauts_exaustor).encode('utf-8'))
             # time.sleep(3)
         except:
             pass
@@ -136,24 +135,30 @@ def procform(y):
     else:
         ar(0)
     if int(y['portao']) > 0:
-        portao(int(y['portao']))
+        exaustor(int(y['portao']))
     else:
-        portao(int(y['portao']))
+        exaustor(int(y['portao']))
 
 
 def sub_lampada():
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
-    channel.queue_declare(queue='lampada')
+
+    channel.exchange_declare(exchange='lum_sensor', exchange_type='direct')
+
+    result = channel.queue_declare(queue='lum_sensor', exclusive=True)
+    queue_name = result.method.queue
+
+    channel.queue_bind(exchange='lum_sensor', queue=queue_name)
 
     def callback(ch, method, properties, body):
-        valor = int(float(body.decode()))
-        global sensor_ilumicao
-        sensor_ilumicao.append(valor)
+        luminosity = int(float(body.decode()))
+        global sensor_iluminacao
+        sensor_iluminacao.append(luminosity)
 
     channel.basic_consume(
-        queue='lampada', on_message_callback=callback, auto_ack=True)
+        queue=queue_name, on_message_callback=callback, auto_ack=True)
 
     channel.start_consuming()
 
@@ -162,53 +167,64 @@ def sub_ar():
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
-    channel.queue_declare(queue='ar')
+
+    channel.exchange_declare(exchange='temp_sensor', exchange_type='direct')
+
+    result = channel.queue_declare(queue='temp_sensor', exclusive=True)
+    queue_name = result.method.queue
+
+    channel.queue_bind(exchange='temp_sensor', queue=queue_name)
 
     def callback(ch, method, properties, body):
-        valor = int(float(body.decode()))
+        temp = int(float(body.decode()))
         global ar_sensor
-        ar_sensor.append(valor)
+        ar_sensor.append(temp)
 
     channel.basic_consume(
-        queue='ar', on_message_callback=callback, auto_ack=True)
+        queue=queue_name, on_message_callback=callback, auto_ack=True)
 
     channel.start_consuming()
 
 
-def sub_portao():
-
+def sub_fumaca():
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
-    channel.queue_declare(queue='portao')
+
+    channel.exchange_declare(exchange='smoke_sensor', exchange_type='direct')
+
+    result = channel.queue_declare(queue='smoke_sensor', exclusive=True)
+    queue_name = result.method.queue
+
+    channel.queue_bind(exchange='smoke_sensor', queue=queue_name)
 
     def callback(ch, method, properties, body):
-        valor = body.decode()
+        fumaca_state = body.decode()
 
-        global portao_sensor
-        portao_sensor.append(int(valor))
+        global fumaca_sensor
+        fumaca_sensor.append(int(fumaca_state))
 
     channel.basic_consume(
-        queue='portao', on_message_callback=callback, auto_ack=True)
+        queue=queue_name, on_message_callback=callback, auto_ack=True)
 
     channel.start_consuming()
 
 
-def portao(comando):
+def exaustor(comando):
 
     channel = grpc.insecure_channel('localhost:50053')
-    stub = portao_pb2_grpc.PortaoStub(channel)
+    stub = exaustor_pb2_grpc.ExaustorStub(channel)
     # create a valid request message
     if float(comando) >= 0:
-        status = portao_pb2.StatusPortao(status=float(comando))
+        status = exaustor_pb2.StatusExaustor(status=float(comando))
         # make the call
-        response = stub.abrirPortao(status)
+        response = stub.ligarExaustor(status)
     else:
-        status = portao_pb2.StatusPortao(status=float(comando))
+        status = exaustor_pb2.StatusExaustor(status=float(comando))
         # make the call
-        response = stub.fecharPortao(status)
+        response = stub.desligarExaustor(status)
 
-    portao_valor.append(response.status)
+    fumaca_valor.append(response.status)
 
 
 def ar(comando):
@@ -253,9 +269,9 @@ t.start()
 
 t3 = threading.Thread(target=sub_ar)
 t3.start()
-# sub_portao
+# sub_fumaca
 
-t4 = threading.Thread(target=sub_portao)
+t4 = threading.Thread(target=sub_fumaca)
 t4.start()
 
 aceptar = threading.Thread(target=aceptarCon)
