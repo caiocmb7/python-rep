@@ -74,9 +74,9 @@ def aceptarCon():
 
             if len(fumaca_valor) > 1:
                 if fumaca_valor[len(fumaca_valor)-1] >= 1:
-                    stauts_exaustor = "Aberto"
+                    stauts_exaustor = "Ligado"
                 else:
-                    stauts_exaustor = "Fechado"
+                    stauts_exaustor = "Desligado"
             else:
                 if fumaca_sensor[len(fumaca_sensor)-1] >= 1:
                     stauts_exaustor = "Aberto"
@@ -134,10 +134,10 @@ def procform(y):
         ar(float(y['temperatura']))
     else:
         ar(0)
-    if int(y['portao']) > 0:
-        exaustor(int(y['portao']))
+    if int(y['exaustor']) > 0:
+        exaustor(int(y['exaustor']))
     else:
-        exaustor(int(y['portao']))
+        exaustor(int(y['exaustor']))
 
 
 def sub_lampada():
