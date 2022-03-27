@@ -11,7 +11,7 @@ while True:
         res[i] = int(valor / notas[i])
         valor = valor % notas[i]
 
-    print ("Teste", valores)
+    print (f"Teste {valores}")
     print (res[0], res[1], res[2], res[3], "\n")
 
 
